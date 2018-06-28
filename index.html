@@ -1,0 +1,106 @@
+<html>
+<head>
+  <title>考试系统</title>
+  <meta http-equiv="accept-charset" charset="utf-8">
+  <script src="js/jquery.min.js"></script>
+</head>
+<body>
+<h3 style="float: left">2016--2017学年期末测试题</h3>
+<p id="time" style="color:red;float: right;margin: 12px 20px 0 0;padding: 0 0 0 0;font-size: xx-large"></p>
+<br/><br/><br/>
+<hr/>
+<h4>一、单选题（每题12分，满分60分）</h4>
+1、The tone of the article ____ the writer's mood at the time. <br>
+<input type="radio" name="radio_1" value="A">A、reproduced<br>
+<input type="radio" name="radio_1" value="B">B、reflected<br>
+<input type="radio" name="radio_1" value="C">C、imagined<br>
+<input type="radio" name="radio_1" value="D">D、imitated<br>
+2.Suan is very hardworking,but her pay is not ____ for her work. <br>
+<input type="radio" name="radio_2" value="A">A、enough good<br>
+<input type="radio" name="radio_2" value="B">B、good enough<br>
+<input type="radio" name="radio_2" value="C">C、as good enough<br>
+<input type="radio" name="radio_2" value="D">D、good as enough<br>
+3.I'm surprlsed ____ this city is a dull place to live in. <br>
+<input type="radio" name="radio_3" value="A">A、that you should think<br>
+<input type="radio" name="radio_3" value="B">B、by what you are thinking<br>
+<input type="radio" name="radio_3" value="C">C、that you would think<br>
+<input type="radio" name="radio_3" value="D">D、whith what you were thinking<br>
+4.It's high time we ____ cutting down the rainforests<br>
+<input type="radio" name="radio_4" value="A">A、stopped<br>
+<input type="radio" name="radio_4" value="B">B、had to stop<br>
+<input type="radio" name="radio_4" value="C">C、shall stop<br>
+<input type="radio" name="radio_4" value="D">D、stop<br>
+5.____ dull he may be ,he is certainly a very successful top executwe<br>
+<input type="radio" name="radio_5" value="A">A、Although<br>
+<input type="radio" name="radio_5" value="B">B、Whatever<br>
+<input type="radio" name="radio_5" value="C">C、As<br>
+<input type="radio" name="radio_5" value="D">D、However<br>
+<br/>
+<h4>二、多选题（每题20分，满分40分，错选、少选、多选不得分）</h4>
+6.If only I ____ piay the guitar as well as you!<br>
+<input type="checkbox" name="checkbox_1" value="A">A、would<br>
+<input type="checkbox" name="checkbox_1" value="B">B、could<br>
+<input type="checkbox" name="checkbox_1" value="C">C、should<br>
+<input type="checkbox" name="checkbox_1" value="D">D、might<br>
+7.We won’t give up___we should fail 10 times. <br>
+<input type="checkbox" name="checkbox_2" value="A">A、A.even if<br>
+<input type="checkbox" name="checkbox_2" value="B">B、since<br>
+<input type="checkbox" name="checkbox_2" value="C">C、whether<br>
+<input type="checkbox" name="checkbox_2" value="D">D、until<br>
+<hr/>
+<input type="button" onclick="my_confirm()" value="考试完成">
+<script type="text/javascript">
+    function getjson() {
+      var radio = new Array();
+      for (var i = 1; i <= 5; i++) {//获取radio的值
+        var radio_name = new String("radio_" + i);
+        radio[i - 1] = $('input:radio[name=' + radio_name + ']:checked').val()
+      }
+      for (var i = 1; i <= 2; i++) {//获取checkbox的的输入
+        var checkbox_name = new String("checkbox_" + i);
+        var chk_value = [];
+        $('input:checkbox[name=' + checkbox_name + ']:checked').each(function () {
+          chk_value.push($(this).val());
+        });
+        radio[i + 4] = "";//置为空
+        for (var j = 0; j < chk_value.length; j++) {
+          radio[i + 4] = radio[i + 4] + chk_value[j];
+        }
+      }
+      //数组转json串
+      var json = JSON.stringify(radio);
+      return json;
+    }
+    function my_confirm() {
+      var json = getjson();
+      var msg = "您的答案是：" + json + ",是否确认提交";
+      if (confirm(msg) == true) {
+        window.location.href = "result.html?radio=" + 5 + "checkbox=" + 2 + "&json=" + json;
+      } else {
+        return false;
+      }
+    }
+    $(function () {
+      var m = 1;
+      var s = 60;
+      setInterval(function () {
+        if (m >= 0) {
+          if (s < 10) {
+            $('#time').html("剩余时间：" + m + ':0' + s);
+          } else {
+            $('#time').html("剩余时间：" + m + ':' + s);
+          }
+          s--;
+          if (s < 0) {
+            s = 59;
+            m--;
+          }
+          if (m == 0 && s < 1) {
+            window.location.href = "result.html?radio=" + 5 + "checkbox=" + 2 + "&json=" + getjson();
+          }
+        }
+      }, 1000)
+    })
+  </script>
+</body>
+</html>
